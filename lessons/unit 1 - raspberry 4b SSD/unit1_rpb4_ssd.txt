@@ -33,13 +33,17 @@ sudo apt install rpi-eeprom
 Изменение канала загрузки
 sudo nano /etc/default/rpi-eeprom-update
 Поменять на beta
+###UPDATE - Меняем на stable!
 Ctrl+X - сохранение, Y для подтверждения
 
 Прошивки на ветке бета
 ls -la /lib/firmware/raspberrypi/bootloader/beta/ 
+###UPDATE - ls -la /lib/firmware/raspberrypi/bootloader/stable/
 
-Запись бета версии 
-sudo rpi-eeprom-update -d -f /lib/firmware/raspberrypi/bootloader/beta/pieeprom-2020-05-15.bin
+Запись бета версии (обновил версию)
+sudo rpi-eeprom-update -d -f /lib/firmware/raspberrypi/bootloader/beta/pieeprom-2020-06-15.bin
+###UPDATE - Запись стабильной версии (обновил версию)
+sudo rpi-eeprom-update -d -f /lib/firmware/raspberrypi/bootloader/stable/pieeprom-2020-07-31.bin
 
 Перезагрузка
 sudo reboot
@@ -49,6 +53,8 @@ vcgencmd bootloader_version
 
 Порядок загрузки
 vcgencmd bootloader_config
+
+> Подключаем SSD
 
 Создание папки
 sudo mkdir /mnt/ssddisk
@@ -108,6 +114,7 @@ Ctrl-X выход - подтверждаем изменения нажав на 
 Изменение канала загрузки
 sudo nano /etc/default/rpi-eeprom-update
 Поменять на beta
+###UPDATE - Меняем на stable!
 Ctrl+X - сохранение, Y для подтверждения
 
 Установка пакетов нужных для работы и установки Hass.io
@@ -136,7 +143,5 @@ docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.
 
 Установка hass.io (список ключей тут - https://github.com/home-assistant/supervised-installer)
 curl -sL https://raw.githubusercontent.com/home-assistant/supervised-installer/master/installer.sh | bash -s -- -m raspberrypi4
-ВНИМАНИЕ - если оригинальный скрипт вылетает на диалоге - type not supported - используйте исправленный скрипт - 
-curl -sL https://raw.githubusercontent.com/kvazis/training/master/install/install.sh | bash -s - -m raspberrypi4
 
 Веб интерфейс Hass.io - IP adress:8123

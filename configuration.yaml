@@ -7,11 +7,17 @@ homeassistant:
   time_zone: Europe/Kiev
   customize: !include customize.yaml
   packages: !include_dir_merge_named includes/packages
-    
+
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
+panel_iframe:
+  sls_gateway:
+    title: 'SLS Gateway'
+    icon: mdi:zigbee
+    url: 'http://192.168.0.84'
+    
 frontend:
   themes: !include_dir_merge_named themes
 
@@ -35,7 +41,7 @@ tts:
   
 mqtt:
 #   broker: core-mosquitto  # Локальный брокер
-  broker: 192.168.0.71   # Внешний брокер
+  broker: 192.168.0.74   # Внешний брокер
   discovery: true
   discovery_prefix: homeassistant  
   username: mqtt
@@ -60,18 +66,20 @@ switch: !include_dir_merge_list includes/switches
 script: !include_dir_merge_named includes/scripts
 binary_sensor: !include_dir_merge_list includes/bin_sensor
 
-xiaomi_aqara:
-  discovery_retry: 10
-  gateways:
-    - mac: F0:B4:29:CC:1F:11
-      key: !secret gateway1_api
-      host: 192.168.0.80
-    - mac: 28:6C:07:F0:AD:27
-      key: !secret gateway2_api
-      host: 192.168.0.81
-    - mac: 34:CE:00:88:B0:39
-      key: !secret gateway3_api
-      host: 192.168.0.82
-    - mac: 78:11:DC:64:F4:C8
-      key: !secret gateway4_api
-      host: 192.168.0.83
+
+telegram_bot:
+  - platform: polling
+    api_key: !secret api_key_bot
+    allowed_chat_ids:
+     - !secret telegram_id_1
+     - !secret telegram_id_2    
+      
+notify:
+
+  - name: telegram_id_1
+    platform: telegram
+    chat_id: !secret telegram_id_1
+    
+  - name: telegram_id_2
+    platform: telegram
+    chat_id: !secret telegram_id_2
